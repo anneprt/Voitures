@@ -28,12 +28,9 @@ namespace Voitures
                         break;
 
                     case 2:
-                        AfficherSegments();
-                        break;
-                    case 3:
                         CreerMarque();
                         break;
-                    case 4:
+                    case 3:
                         SupprimerMarque();
                         break;
                     case 9:
@@ -44,7 +41,6 @@ namespace Voitures
                 Console.WriteLine("Appuyez pour retourner au menu...");
                 Console.ReadKey();
             }
-
 
         }
 
@@ -108,10 +104,6 @@ namespace Voitures
             connexion.Close();
 
         }
-        private static void AfficherSegments()
-        {
-
-        }
 
         private static void CreerMarque()
         {
@@ -128,9 +120,8 @@ namespace Voitures
             Console.Clear();
 
             Console.WriteLine("1. Afficher les modèles");
-            Console.WriteLine("2. Afficher les segments");
-            Console.WriteLine("3. Créer une marque");
-            Console.WriteLine("4. Supprimer une marque");
+            Console.WriteLine("2. Créer une marque");
+            Console.WriteLine("3. Supprimer une marque");
             Console.WriteLine("9. Quitter");
 
             Console.Write("Votre choix: ");
