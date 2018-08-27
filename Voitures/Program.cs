@@ -11,8 +11,17 @@ namespace Voitures
     {
         static void Main(string[] args)
         {
-            var chaineConnexion = "Server=.;database=voitures;Trusted_Connection=True";
-            var connexion = new SqlConnection(chaineConnexion);
+            Console.WriteLine("Modèles chez Renault");
+
+            AfficherModeles();
+
+            Console.ReadKey();
+            
+        }
+
+        private static void AfficherModeles()
+        {
+            var connexion = CreerConnexion();
             connexion.Open();
 
             var commande = connexion.CreateCommand();
@@ -22,6 +31,7 @@ namespace Voitures
                 FROM Modeles M
                     INNER JOIN Segments S ON S.Id=M.IdSegment
                 WHERE IdMarque=2";
+        
             var dataReader = commande.ExecuteReader();
             while (dataReader.Read())
             {
@@ -36,7 +46,13 @@ namespace Voitures
             }
 
             connexion.Close();
-            Console.ReadKey();
+
         }
+        static SqlConnection CreerConnexion()
+        {
+            var chaineConnexion = "Server=.;database=voitures;Trusted_Connection=True";
+           return new SqlConnection(chaineConnexion);
+        }
+
     }
 }
