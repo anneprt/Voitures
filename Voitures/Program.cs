@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -134,13 +135,15 @@ namespace Voitures
         {
             Console.WriteLine();
             Console.WriteLine(">SUPPRESSION D'UNE MARQUE");
+
             var idMarque = ChoisirMarque();
+
             using (var connexion = CreerConnexion())
             {
                 connexion.Open();
                 var commande = connexion.CreateCommand();
-                commande.CommandText =
-                    "DELETE Marques WHERE Id = @IdMarque";
+                commande.CommandText ="SupprimerMarque";
+                commande.CommandType = System.Data.CommandType.StoredProcedure;
                 commande.Parameters.AddWithValue("@IdMarque", idMarque);
                 commande.ExecuteNonQuery();
             }
