@@ -13,10 +13,7 @@ namespace Voitures
         {
             Console.WriteLine("VOITURES");
             Console.WriteLine();
-
-            // int idMarque = ChoisirMarque();
-            //AfficherModeles(idMarque);
-
+           
             while (true)
             {
                 var choix = AfficherMenu();
@@ -26,11 +23,14 @@ namespace Voitures
                         int idMarque = ChoisirMarque();
                         AfficherModeles(idMarque);
                         break;
-
                     case 2:
+                        AfficherMarques();
+                        break;
+
+                    case 3:
                         CreerMarque();
                         break;
-                    case 3:
+                    case 4:
                         SupprimerMarque();
                         break;
                     case 9:
@@ -46,9 +46,16 @@ namespace Voitures
 
         private static int ChoisirMarque()
         {
+            AfficherMarques();
+            Console.WriteLine("Quelle marque (Id)?");
+            return int.Parse(Console.ReadLine());
+        }
+
+        private static void AfficherMarques()
+        {
             Console.WriteLine();
             Console.WriteLine("> MARQUES");
-
+        
             var connexion = CreerConnexion();
             connexion.Open();
 
@@ -69,9 +76,6 @@ namespace Voitures
             }
 
             connexion.Close();
-
-            Console.WriteLine("Quelle marque (Id)?");
-            return int.Parse(Console.ReadLine());
         }
 
         private static void AfficherModeles(int idMarque)
@@ -107,7 +111,23 @@ namespace Voitures
 
         private static void CreerMarque()
         {
+            Console.WriteLine();
+            Console.WriteLine(">NOUVELLE MARQUE");
 
+            Console.Write("Nom de la marque: ");
+            var nomMarque = Console.ReadLine();
+
+            var connexion = CreerConnexion();
+            connexion.Open();
+
+            var commande = connexion.CreateCommand();
+            commande.CommandText =
+                "INSERT INTO Marques (Nom) VALUES(@NomMarque)";
+            commande.Parameters.AddWithValue("@NomMarque", nomMarque);
+
+            commande.ExecuteNonQuery();
+
+            connexion.Close();
         }
 
         private static void SupprimerMarque ()
@@ -122,6 +142,7 @@ namespace Voitures
             Console.WriteLine("1. Afficher les modèles");
             Console.WriteLine("2. Créer une marque");
             Console.WriteLine("3. Supprimer une marque");
+            Console.WriteLine("4. Supprimer une marque");
             Console.WriteLine("9. Quitter");
 
             Console.Write("Votre choix: ");
