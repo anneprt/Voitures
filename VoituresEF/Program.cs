@@ -51,7 +51,9 @@ namespace VoituresEF
             var idMarque = int.Parse(Console.ReadLine());
             using (var contexte = new Contexte())
             {
-                return contexte.Marques.Single(x => x.Id == idMarque);
+                return contexte.Marques
+                  .Include(x => x.Modeles)
+                  .Single(x => x.Id == idMarque);
             }
         }
 
@@ -65,7 +67,11 @@ namespace VoituresEF
                     .OrderBy(x => x.Nom).ToList();
                 foreach (var marque in marques)
                 {
-                    Console.WriteLine($"{marque.Nom} ({marque.Id})");
+                    //var nombreModeles = contexte.Modeles
+                    //    .Where(x => x.IdMarque == marque.Id)
+                    //    .Count();
+                    //Console.WriteLine($"{marque.Nom} ({marque.Id}): {nombreModeles} modèle(s)");
+                    Console.WriteLine($"{marque.Nom} ({marque.Id}): {marque.Modeles.Count} modèle(s)");
                 }
             }
         }
@@ -109,6 +115,8 @@ namespace VoituresEF
             // 1ère option: on rattache l'objet marque 
             //  au nouveau contexte puis on précise son nouvel état
             var marque = ChoisirMarque();
+            Console.Write("Nouveau nom: ");
+            marque.Nom = Console.ReadLine();
             using (var contexte = new Contexte())
             {
                 contexte.Marques.Attach(marque);
