@@ -143,7 +143,7 @@ namespace Voitures
                 connexion.Open();
                 var commande = connexion.CreateCommand();
                 commande.CommandText ="SupprimerMarque";
-                commande.CommandType = System.Data.CommandType.StoredProcedure;
+                commande.CommandType =CommandType.StoredProcedure;
                 commande.Parameters.AddWithValue("@IdMarque", idMarque);
                 commande.ExecuteNonQuery();
             }
