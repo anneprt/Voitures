@@ -73,26 +73,18 @@ namespace VoituresEF
         {
             Console.WriteLine();
             Console.WriteLine("> MODELES");
-            //var connexion = CreerConnexion();
-            //connexion.Open();
-            //var commande = connexion.CreateCommand();
-            //commande.CommandText =
-            //    @"SELECT M.Nom AS NomModele, S.Nom AS NomSegment
-            //      FROM Modeles M
-            //          INNER JOIN Segments S ON S.Id = M.IdSegment
-            //      WHERE IdMarque = @IdMarque";
-            //commande.Parameters.AddWithValue("@IdMarque", idMarque);
-            //var dataReader = commande.ExecuteReader();
-            //while (dataReader.Read())
-            //{
-            //    var indexColonneNomModele = dataReader.GetOrdinal("NomModele");
-            //    var indexColonneNomSegment = dataReader.GetOrdinal("NomSegment");
-            //    Console.Write(dataReader.GetString(indexColonneNomModele));
-            //    Console.Write(" (");
-            //    Console.Write(dataReader.GetString(indexColonneNomSegment));
-            //    Console.WriteLine(")");
-            //}
-            //connexion.Close();
+
+            using (var contexte = new Contexte())
+            {
+                var modeles = contexte.Modeles
+                    .Where(x => x.IdMarque == idMarque)
+                    .OrderBy(x => x.Nom).ToList();
+                foreach (var modele in modeles)
+                {
+                    Console.WriteLine($"{modele.Nom} - {modele.Segment.Nom} ({modele.Id})");
+                }
+            }
+
         }
 
         private static void CreerMarque()
